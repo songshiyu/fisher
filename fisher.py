@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config.from_object('config')
 
 
-@app.route('/hello/')
+@app.route('/hello/', methods={'POST'})
 def hello():
     # 修改路由返回的内容
     headers = {
@@ -47,4 +47,4 @@ def search(q, page):
 
 if __name__ == '__main__':
     # 生产环境通常不会用Flask自带的服务器，而是使用nginx+uwsgi
-    app.run(host='0.0.0.0', debug=app.config['DEBUG'], port=9999)
+    app.run(debug=app.config['DEBUG'], host='0.0.0.0', port=9999)
