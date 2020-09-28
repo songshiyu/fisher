@@ -1,13 +1,18 @@
-from flask import Flask, make_response
+import json
+
+from flask import Flask, make_response, jsonify
+from util.helper import is_isbin_or_key
 
 __auther__ = 'songshiyu'
+
+from yushu_book import YuShuBook
 
 app = Flask(__name__)
 
 app.config.from_object('config')
 
 
-@app.route('/hello/', methods={'POST'})
+@app.route('/hello/', methods={'GET'})
 def hello():
     # 修改路由返回的内容
     headers = {
@@ -22,7 +27,7 @@ def hello():
     return response
 
 
-# 搜索API
+# 搜索书籍API
 @app.route('/book/search/<q>/<page>')
 def search(q, page):
     """
@@ -30,15 +35,18 @@ def search(q, page):
     :param page:
     :return:
     """
-    # isbin isbin13 13个0到9的数子组成
-    # isbin10 10个0到9的数数字组成，含有一些'-'
-    isbin_or_key = 'key'
-    if len(q) == 13 and q.isdigit:
-        isbin_or_key = 'isbn'
-    short_q = q.replace('-', '')
-    if '-' in short_q and len(short_q) == 10 and short_q.isdigit:
-        isbin_or_key = 'isbin'
-    pass
+    isbin_or_key = is_isbin_or_key(q)
+
+    if isbin_or_key == 'isbin':
+        result = YuShuBook.search_by_isbn(q)
+    else:
+        result = YuShuBook.search_by_keyword(q, page)
+
+    # 原始返回json格式的数据
+    # return json.dumps(result), 200, {'content-type': 'application/json'}
+
+    # 使用jsonify格式化json
+    return jsonify(result)
 
 
 # 第二种添加路由的方式
