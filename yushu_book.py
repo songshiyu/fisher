@@ -5,6 +5,7 @@
 __auther__ = 'songshiyu'
 
 from util.lxkHttp import HTTP
+from flask import current_app
 
 
 class YuShuBook:
@@ -21,6 +22,12 @@ class YuShuBook:
     # 使用keyword搜索书籍
     @staticmethod
     def search_by_keyword(keyword, page=1):
-        url = YuShuBook.keyword_url.format(keyword, 0, 15)
+        url = YuShuBook.keyword_url.format(keyword, current_app.config['PRE_PAGE'],
+                                           YuShuBook.calculate_start(page))
         res = HTTP.get(url)
         return res
+
+    @staticmethod
+    def calculate_start(page):
+        start = (page - 1) * current_app.config['PRE_PAGE']
+        return start
