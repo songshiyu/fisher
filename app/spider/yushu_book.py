@@ -4,7 +4,7 @@
 
 __auther__ = 'songshiyu'
 
-from util.lxkHttp import HTTP
+from app.libs.lxkHttp import HTTP
 from flask import current_app
 
 

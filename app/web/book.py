@@ -4,8 +4,8 @@
 
 # 搜索书籍API
 from flask import jsonify, request
-from util.helper import is_isbin_or_key
-from yushu_book import YuShuBook
+from app.libs.helper import is_isbin_or_key
+from app.spider.yushu_book import YuShuBook
 from . import web
 from ..forms.book import SearchForm
 
