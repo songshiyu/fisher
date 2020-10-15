@@ -8,6 +8,7 @@ from app.libs.helper import is_isbin_or_key
 from app.spider.yushu_book import YuShuBook
 from . import web
 from ..forms.book import SearchForm
+from ..view_models.book import BookCollection
 
 
 # @web.route('/book/search/<q>/<page>')
@@ -42,16 +43,20 @@ def search():
     :return:
     """
     form = SearchForm(request.args)
+    books = BookCollection()
+
     if form.validate():
         q = form.q.data.strip()
         page = form.page.data
 
         isbin_or_key = is_isbin_or_key(q)
+        yushu_book = YuShuBook()
 
         if isbin_or_key == 'isbin':
-            result = YuShuBook.search_by_isbn(q)
+            yushu_book.search_by_isbn(q)
         else:
-            result = YuShuBook.search_by_keyword(q, page)
-        return jsonify(result)
+            yushu_book.search_by_keyword(q, page)
+        books.fill(yushu_book, q)
+        return "等待渲染"
     else:
         return form
