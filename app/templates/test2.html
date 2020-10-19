@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 反向构建url -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='test.css')}}">
+</head>
+<body>
+{% for foo in [1,2,3] %}
+{{foo}}
+{% endfor %}
+</body>
+</html>

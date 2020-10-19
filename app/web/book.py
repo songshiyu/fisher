@@ -3,12 +3,13 @@
 """
 
 # 搜索书籍API
-from flask import jsonify, request
+from flask import jsonify, request, render_template
 from app.libs.helper import is_isbin_or_key
 from app.spider.yushu_book import YuShuBook
 from . import web
 from ..forms.book import SearchForm
 from ..view_models.book import BookCollection
+import json
 
 
 # @web.route('/book/search/<q>/<page>')
@@ -57,6 +58,15 @@ def search():
         else:
             yushu_book.search_by_keyword(q, page)
         books.fill(yushu_book, q)
-        return "等待渲染"
+        return json.dump(books, default=lambda o: o.__dict__)
     else:
         return form
+
+
+@web.route("/test")
+def test():
+    r = {
+        'name': '宋时雨',
+        'age': 18
+    }
+    return render_template('test2.html', data=r)
