@@ -3,7 +3,7 @@
 """
 
 # 搜索书籍API
-from flask import jsonify, request, render_template
+from flask import jsonify, request, render_template, flash
 from app.libs.helper import is_isbin_or_key
 from app.spider.yushu_book import YuShuBook
 from . import web
@@ -69,4 +69,6 @@ def test():
         'name': '宋时雨',
         'age': 18
     }
+    # 消息闪现  其他地方可以使用，需要在配置文件中定义secret_key才能使用
+    flash('hello songshiyu', category='test')
     return render_template('test2.html', data=r)

@@ -1,14 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <!-- 反向构建url -->
-    <link rel="stylesheet" href="{{ url_for('static',filename='test.css')}}">
-</head>
-<body>
-{% for foo in [1,2,3] %}
-{{foo}}
-{% endfor %}
-</body>
-</html>
+<!-- jinja模版继承 -->
+{% extends 'layout.html' %}
+{% block content %}
+    {{super()}}
+    <!-- 获取消息闪现的数据，有作用域的概念,作用于bolck -->
+    {% set message = get_flashed_messages() %}
+    {{message}}
+    <!-- 获取消息闪现的数据 -->
+
+    <!-- 获取消息闪现的数据，有作用域的概念，作用域with区域 -->
+    {% with message = get_flashed_messages() %}
+    {{message}}
+    {% endwith %}
+    <!-- 获取消息闪现的数据 -->
+
+    {% for foo in [1,2,3] %}
+    {{foo}}
+    {% endfor %}
+{% endblock %}

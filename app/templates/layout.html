@@ -8,5 +8,16 @@
 </head>
 <body>
 <!-- 引入jinja框架，可以查看其官网 -->
+{% block head %}
+<div>thi is head</div>
+{% endblock %}
+
+{% block content %}
+<div>thi is content</div>
+{% endblock %}
+
+{% block foot %}
+<div>thi is foot</div>
+{% endblock %}
 </body>
 </html>
